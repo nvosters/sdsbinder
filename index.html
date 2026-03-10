@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SDS Library Binder</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>🏛️ SDS Library Binder</h1>
+    <p>Search chemicals/products, organize by shelf, and auto-fill entries from product photos.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Add Product</h2>
+      <form id="add-form">
+        <label>Product Name <input id="product-name" required /></label>
+        <label>Manufacturer <input id="manufacturer" /></label>
+        <label>Notes <textarea id="notes" rows="2"></textarea></label>
+        <button type="submit">Add to Binder</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Upload Product Photo</h2>
+      <form id="scan-form">
+        <label>Image File <input id="label-photo" type="file" accept="image/*" required /></label>
+        <button type="submit">Extract + Add + Find SDS</button>
+      </form>
+      <small>Tip: OCR runs in-browser (if available). Fallback uses filename pattern: <code>Product by Manufacturer.jpg</code>.</small>
+    </section>
+
+    <section class="panel full-width">
+      <h2>Catalog Search</h2>
+      <div class="search-row">
+        <input id="search" placeholder="Search by product or manufacturer" />
+      </div>
+      <div id="alerts"></div>
+      <div id="catalog"></div>
+    </section>
+  </main>
+</body>
+</html>
