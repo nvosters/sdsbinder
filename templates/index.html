@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDS Binder (AI Assisted)</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🏛️ SDS Binder</h1>
+    <p>Upload a label image, let AI suggest product/manufacturer + SDS, then verify and add.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>1) Upload Product Label</h2>
+      <form id="scan-form">
+        <input type="file" id="image" accept="image/*" required />
+        <button type="submit">Analyze Image + Find SDS</button>
+      </form>
+      <div id="scan-status"></div>
+    </section>
+
+    <section class="panel" id="verify-panel" hidden>
+      <h2>2) Verify Before Saving</h2>
+      <label>Product Name <input id="v-product" /></label>
+      <label>Manufacturer <input id="v-manufacturer" /></label>
+      <label>Suggested SDS Links</label>
+      <select id="v-sds"></select>
+      <button id="confirm-btn">Looks Correct — Add to Binder</button>
+    </section>
+
+    <section class="panel full">
+      <h2>Binder Catalog</h2>
+      <input id="search" placeholder="Search product or manufacturer" />
+      <div id="catalog"></div>
+    </section>
+  </main>
+</body>
+</html>

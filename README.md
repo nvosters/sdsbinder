@@ -1,24 +1,32 @@
-# SDS Library Binder (Client-side MVP)
+# SDS Binder (AI-assisted verification workflow)
 
-This project provides a simple **online SDS binder UI** organized like a library catalog.
+This version upgrades the binder to use an **AI-assisted intake flow**:
 
-## What it does
-- Add products with name + manufacturer.
-- Search products quickly.
-- Organize products by alphabetic shelf (`A`, `B`, `C`, ...).
-- Upload a product photo and attempt OCR extraction (in browser with Tesseract.js).
-- If OCR fails, fallback to filename parsing (`Product by Manufacturer.jpg`).
-- Auto-generate a one-click web search link for SDS PDF discovery.
+1. User uploads a product label image.
+2. AI extracts `product_name` and `manufacturer` (with fallback to filename parsing).
+3. App searches and ranks likely SDS URLs.
+4. User verifies/edit selection.
+5. On confirmation, item is saved to the binder automatically.
 
-## Run
-You can host these static files with any web server, for example:
+## Why this is better
+- Keeps a human verification checkpoint before saving.
+- Uses AI to improve image extraction and SDS ranking quality over plain search links.
 
+## Setup
 ```bash
-python -m http.server 8000
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+pip install flask requests beautifulsoup4 openai
+python app.py
 ```
 
-Then open `http://localhost:8000`.
+Open: `http://localhost:8000`
 
-## Notes
-- This MVP does not directly crawl vendor sites to auto-download PDFs due browser CORS and reliability constraints.
-- Next step for full automation: add a backend worker that validates manufacturer/product matches and stores confirmed SDS PDF URLs.
+## OpenAI configuration (optional, recommended)
+Set your API key to enable AI image understanding + AI ranking:
+
+```bash
+export OPENAI_API_KEY="your_key_here"   # Windows PowerShell: $env:OPENAI_API_KEY="your_key_here"
+```
+
+Without the key, the app still works using filename parsing + heuristic ranking.
