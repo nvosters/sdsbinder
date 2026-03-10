@@ -190,11 +190,6 @@ def home():
     return render_template("index.html")
 
 
-@app.get("/api/health")
-def healthcheck():
-    return jsonify({"ok": True})
-
-
 @app.get("/api/products")
 def list_products():
     with db() as conn:
@@ -215,24 +210,21 @@ def api_scan():
         f.save(tmp.name)
         tmp_path = Path(tmp.name)
 
-    try:
-        extracted = analyze_image(tmp_path, f.filename)
-        product = extracted.get("product_name", "").strip()
-        manufacturer = extracted.get("manufacturer", "").strip()
-        if not product:
-            return jsonify({"error": "Could not identify product name"}), 422
+    extracted = analyze_image(tmp_path, f.filename)
+    product = extracted.get("product_name", "").strip()
+    manufacturer = extracted.get("manufacturer", "").strip()
+    if not product:
+        return jsonify({"error": "Could not identify product name"}), 422
 
-        candidates = find_sds_candidates(product, manufacturer)
-        return jsonify(
-            {
-                "product_name": product,
-                "manufacturer": manufacturer,
-                "candidates": candidates,
-                "needs_verification": True,
-            }
-        )
-    finally:
-        tmp_path.unlink(missing_ok=True)
+    candidates = find_sds_candidates(product, manufacturer)
+    return jsonify(
+        {
+            "product_name": product,
+            "manufacturer": manufacturer,
+            "candidates": candidates,
+            "needs_verification": True,
+        }
+    )
 
 
 @app.post("/api/verify-add")
